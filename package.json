@@ -1,16 +1,16 @@
 {
   "name": "tic-tac-toe",
+  "version": "0.0.2",
   "private": true,
-  "version": "0.0.1",
-  "type": "module",
+  "homepage": "https://eldarlrd.github.io/tic-tac-toe",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "pretty": "prettier --write src/**/*.ts",
-    "lint": "eslint src --ext ts --report-unused-disable-directives",
+    "start": "inferno-scripts --openssl-legacy-provider start",
+    "build": "inferno-scripts build",
+    "pretty": "prettier --write src/**/*.js",
+    "lint": "eslint src --ext js --report-unused-disable-directives",
     "format": "yarn pretty && yarn lint --fix",
-    "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -b deploy -m 'build: Deployment' -d dist"
+    "deploy": "yarn build && gh-pages -b deploy -m 'build: Deployment' -d build",
+    "eject": "inferno-scripts eject"
   },
   "prettier": {
     "singleQuote": true,
@@ -19,14 +19,24 @@
     "trailingComma": "none",
     "arrowParens": "avoid"
   },
+  "dependencies": {
+    "inferno": "^8.2.2",
+    "inferno-hyperscript": "^8.2.2",
+    "inferno-scripts": "7.0.4"
+  },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@typescript-eslint/parser": "^6.1.0",
-    "eslint": "^8.45.0",
+    "@babel/eslint-parser": "^7.22.9",
     "eslint-config-prettier": "^8.8.0",
     "gh-pages": "^5.0.0",
     "prettier": "^3.0.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
-  }
+    "tachyons": "^4.12.0"
+  },
+  "eslintConfig": { "extends": "inferno-app" },
+  "eslintIgnore": ["index.js"],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
