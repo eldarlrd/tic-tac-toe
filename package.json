@@ -1,0 +1,32 @@
+{
+  "name": "tic-tac-toe",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "pretty": "prettier --write src/**/*.ts",
+    "lint": "eslint src --ext ts --report-unused-disable-directives",
+    "format": "yarn pretty && yarn lint --fix",
+    "preview": "vite preview",
+    "deploy": "yarn build && gh-pages -b deploy -m 'build: Deployment' -d dist"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "bracketSameLine": true,
+    "trailingComma": "none",
+    "arrowParens": "avoid"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "gh-pages": "^5.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}
