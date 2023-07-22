@@ -19,9 +19,9 @@ export default function App() {
 
   gridLoop();
 
-  return h('div', { class: 'vh-100 flex flex-column items-center justify-around' }, [
+  return h('div', { class: 'min-vh-100 flex flex-column items-center justify-between bg-near-white' }, [
     h(Header),
-    h('main', {class: 'w-100 h-100 flex flex-column items-center justify-center bg-near-white'}, [
+    h('main', {class: 'w-100 pb5 pt5 h-100 flex flex-column items-center justify-center'}, [
       h('span', {class: 'mb4 f3 avenir dark-blue b'}, [
         'Player ', h('span', {class: 'dark-red'}, 'X'), ' wins!'
       ]),

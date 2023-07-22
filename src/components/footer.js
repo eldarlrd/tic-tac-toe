@@ -6,14 +6,14 @@ export default function Footer() {
   return h(
     'footer',
     {
-      class:
-        'pa3 avenir flex items-center justify-center w-100 bg-dark-blue tc'
+      class: 'bottom-0 pa3 avenir flex items-center justify-center w-100 bg-dark-blue tc'
     },
     [
       h(
         'p',
         {
-          class: 'b flex flex-column items-center justify-center tc f4 near-white'
+          class:
+            'b flex flex-column items-center justify-center tc f4 near-white'
         },
         [
           'by',
