@@ -10,6 +10,39 @@
     <title>Tic Tac Toe</title>
   </head>
 
+  <style>
+    :root {
+      scroll-behavior: smooth;
+      cursor: default;
+      user-select: none;
+    }
+
+    button:hover {
+      background-color: #00449E;
+      color: #F4F4F4;
+    }
+
+    button:hover:active {
+      scale: .95;
+    }
+
+    .board:nth-child(-n + 3) {
+      border-top: none;
+    }
+
+    .board:nth-child(3n) {
+      border-right: none;
+    }
+
+    .board:nth-child(3n  - 2) {
+      border-left: none;
+    }
+
+    .board:nth-child(n + 7) {
+      border-bottom: none;
+    }
+  </style>
+
   <body>
     <div id='app'></div>
   </body>

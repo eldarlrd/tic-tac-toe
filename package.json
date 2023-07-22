@@ -31,8 +31,12 @@
     "prettier": "^3.0.0",
     "tachyons": "^4.12.0"
   },
-  "eslintConfig": { "extends": "inferno-app" },
-  "eslintIgnore": ["index.js"],
+  "eslintConfig": {
+    "extends": "inferno-app"
+  },
+  "eslintIgnore": [
+    "index.js"
+  ],
   "browserslist": [
     ">0.2%",
     "not dead",
