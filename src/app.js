@@ -11,7 +11,7 @@ export default function App() {
       gridBoxes.push(
         h('div', {key: i, id: i, style: {'height': 'calc(100% / 3)'}, class: 'board ba bw1 b--dark-blue pointer fl w-third flex items-center justify-center'}, [
           h('span', { class: 'b flex items-center justify-center dark-red',
-          style: { 'font-family': 'cursive', 'font-size': '5em' } }, 'X')
+          style: { 'font-family': 'Patrick Hand, cursive', 'font-size': '5em' } }, 'X')
         ])
       )
     }
@@ -32,7 +32,7 @@ export default function App() {
         ])
         ]),
         h('div', [
-          'Player ', h('span', {class: 'dark-red'}, 'X'), ' wins!'
+          'Player ', h('span', {style: {'font-family': 'Patrick Hand, cursive'}, class: 'b dark-red'}, 'X'), ' wins!'
         ])
       ]),
       h('section#gameBoard', {style: {'width': '21em', 'height': '21em'}, class: 'mb3 cf'}, [
