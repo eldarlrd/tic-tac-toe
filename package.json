@@ -1,11 +1,11 @@
 {
   "name": "tic-tac-toe",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "private": true,
   "homepage": "https://eldarlrd.github.io/tic-tac-toe",
   "scripts": {
     "start": "inferno-scripts --openssl-legacy-provider start",
-    "build": "inferno-scripts build",
+    "build": "inferno-scripts --openssl-legacy-provider build",
     "pretty": "prettier --write src/**/*.js",
     "lint": "eslint src --ext js --report-unused-disable-directives",
     "format": "yarn pretty && yarn lint --fix",

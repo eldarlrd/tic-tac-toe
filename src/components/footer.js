@@ -1,12 +1,11 @@
 import { h } from 'inferno-hyperscript';
-import githubLogo from '../assets/github.svg';
 const githubURL = 'https://github.com/eldarlrd';
 
 export default function Footer() {
   return h(
     'footer',
     {
-      class: 'bottom-0 pa3 avenir flex items-center justify-center w-100 bg-dark-blue tc'
+      class: 'pa3 avenir flex items-center justify-center w-100 bg-dark-blue tc'
     },
     [
       h(
@@ -28,10 +27,8 @@ export default function Footer() {
               href: githubURL
             },
             [
-              h('img', {
-                class: 'h1 w1 mr1',
-                alt: 'GitHub Logo',
-                src: githubLogo
+              h('i', {
+                class: 'fa-brands fa-github mr1'
               }),
               'eldarlrd'
             ]
