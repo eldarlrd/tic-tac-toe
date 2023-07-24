@@ -27,7 +27,6 @@ export default class App extends Component {
     this.state = {
       actor: '',
       winner: '',
-      mode: 'PvP',
       gridBoxes: [],
       gameOver: false
     };
@@ -76,15 +75,7 @@ export default class App extends Component {
       });
     }
   }
-  // Game Controls
-  switchMode(state) {
-    if (this.state.mode === state) return;
-    this.restart();
-    this.setState({
-      mode: state
-    });
-  }
-
+  // Restart
   restart() {
     new Audio(restartAudio).play();
     this.setState({
@@ -108,8 +99,7 @@ export default class App extends Component {
     }
   }
 
-  switchActor(tile) {
-    if (tile.innerText) return;
+  switchActor() {
     this.setState({
       actor: this.state.actor === 'X' ? 'O' : 'X'
     });
@@ -160,40 +150,26 @@ export default class App extends Component {
               'section',
               {
                 class:
-                  'flex flex-column items-center justify-center mb4 f3 avenir dark-blue b'
+                  'flex flex-column items-center justify-center mt4 mb4 f3 avenir dark-blue b'
               },
               [
-                h('div', { class: 'mb3' }, [
-                  h(
-                    'button',
-                    {
-                      onClick: () => this.switchMode('PvE'),
-                      title: 'Player vs. Environment',
-                      style: { width: '7.5rem' },
-                      class: `${
-                        this.state.mode === 'PvE' ? 'active-button' : ''
-                      } mr2 mb2 avenir bw0 outline-0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue`
-                    },
-                    [h('i', { class: 'fa-solid fa-robot h1 w1 mr3' }), ' PvE']
-                  ),
-                  h(
-                    'button',
-                    {
-                      onClick: () => this.switchMode('PvP'),
-                      title: 'Player vs. Player',
-                      style: { width: '7.5rem' },
-                      class: `${
-                        this.state.mode === 'PvP' ? 'active-button' : ''
-                      } ml2 mb2 avenir bw0 outline-0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue`
-                    },
-                    [h('i', { class: 'fa-solid fa-user h1 w1 mr2' }), ' PvP']
-                  )
-                ]),
                 this.state.winner === ''
                   ? h('div', { style: { height: '28px' } }, [
-                      this.state.mode === 'PvP'
-                        ? 'Player vs Player'
-                        : 'Player vs Computer'
+                      h('span', [
+                        'Player ',
+                        h(
+                          'span',
+                          {
+                            style: {
+                              'font-family': 'Patrick Hand, cursive'
+                            },
+                            class:
+                              this.state.actor === 'X' ? 'b blue' : 'b dark-red'
+                          },
+                          this.state.actor === 'X' ? 'O' : 'X'
+                        ),
+                        ' to move'
+                      ])
                     ])
                   : this.state.winner === 'None'
                   ? h('div', { style: { height: '28px' } }, "It's a draw!")
@@ -217,7 +193,7 @@ export default class App extends Component {
             ),
             h(
               'section#gameBoard',
-              { style: { width: '21em', height: '21em' }, class: 'mb3 cf' },
+              { style: { width: '21em', height: '21em' }, class: 'mt2 mb3 cf' },
               [this.state.gridBoxes]
             ),
             h(
