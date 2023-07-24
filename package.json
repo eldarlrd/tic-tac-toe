@@ -1,6 +1,6 @@
 {
   "name": "tic-tac-toe",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "homepage": "https://eldarlrd.github.io/tic-tac-toe",
   "scripts": {
