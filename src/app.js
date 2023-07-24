@@ -1,47 +1,50 @@
 import { h } from 'inferno-hyperscript';
-import { Component, linkEvent } from 'inferno';
+import { Component } from 'inferno';
 import Header from './components/header';
 import Footer from './components/footer';
 import 'tachyons';
 
 export default class App extends Component {
-  state = {
-    actor: 'X',
-    winner: '',
-    mode: 'PvP',
-    gridBoxes: []
-  }
-  
-  switchActor(obj) {
-    obj.setState({
-      actor: obj.state.actor === 'X' ? 'O' : 'X',
+  constructor() {
+    super();
+    this.state = {
+      actor: 'X',
       winner: '',
+      mode: 'PvP',
       gridBoxes: []
+    }
+  }
+
+  componentWillMount() {
+    this.gridLoop()
+  }
+
+  switchActor() {
+    this.setState({
+      actor: this.state.actor === 'X' ? 'O' : 'X',
     })
   }
 
   switchMode(state) {
     this.setState({
       mode: state,
-      gridBoxes: []
     })
   }
 
   // Populate the Board
   gridLoop() {
+    let arr =[];
     for (let i = 1; i <= 9; i++) {
-      this.state.gridBoxes.push(
-        h('div', { key: i, id: i, onClick: e => {linkEvent(this, this.switchActor); (console.log(e.target.id))}, style: {'height': 'calc(100% / 3)'}, class: 'board ba bw1 b--dark-blue pointer fl w-third flex items-center justify-center'}, [
+      arr.push(
+        h('div', { key: i, id: i, onClick: e => {this.switchActor(); (console.log(e.target.id))}, style: {'height': 'calc(100% / 3)'}, class: 'board ba bw1 b--dark-blue pointer fl w-third flex items-center justify-center'}, [
           h('span', { class: 'b flex items-center justify-center',
           style: { 'font-family': 'Patrick Hand, cursive', 'font-size': '5em' } }, '')
         ])
       )
-    }
+    } this.setState({ gridBoxes: arr });
   }
 
   render() {
-    this.gridLoop();
-
     return h('div', { class: 'min-vh-100 flex flex-column items-center justify-between bg-near-white' }, [
       h(Header),
       h('main', {class: 'w-100 pb5 pt4 h-100 flex flex-column items-center justify-center'}, [
