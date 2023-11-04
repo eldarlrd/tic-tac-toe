@@ -1,7 +1,8 @@
+// @flow strict
 import { h } from 'inferno-hyperscript';
-const githubURL = 'https://github.com/eldarlrd';
 
-export default function Footer() {
+// prettier-ignore
+export default function Footer() /*: HTMLDivElement */ {
   return h(
     'footer',
     {
@@ -21,10 +22,11 @@ export default function Footer() {
             {
               class:
                 'near-white grow flex items-center justify-center tc mt1 no-underline outline-0',
-              title: 'Go to GitHub',
+              title: 'Go to the Source',
               target: '_blank',
-              rel: 'noreferrer',
-              href: githubURL
+              type: 'text/html',
+              rel: 'noopener noreferrer nofollow external author',
+              href: 'https://github.com/eldarlrd/tic-tac-toe'
             },
             [
               h('i', {

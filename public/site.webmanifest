@@ -1,0 +1,24 @@
+{
+  "name": "Tic Tac Toe",
+  "short_name": "Tic Tac Toe",
+  "dir": "ltr",
+  "lang": "en",
+  "categories": [
+    "entertainment",
+    "games"
+  ],
+  "display": "standalone",
+  "orientation": "natural",
+  "theme_color": "#00449e",
+  "background_color": "#f4f4f4",
+  "description": "A classic Tic Tac Toe game",
+  "start_url": "https://eldarlrd.github.io/tic-tac-toe/",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

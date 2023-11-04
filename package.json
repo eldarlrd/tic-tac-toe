@@ -1,16 +1,25 @@
 {
   "name": "tic-tac-toe",
-  "version": "1.0.0",
   "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "keywords": [
+    "tic-tac-toe",
+    "web game"
+  ],
+  "description": "A classic Tic Tac Toe game",
+  "repository": "github:eldarlrd/tic-tac-toe",
   "homepage": "https://eldarlrd.github.io/tic-tac-toe",
+  "author": "Eldar Pashazade <eldarlrd@pm.me> (https://eldarlrd.github.io)",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "start": "inferno-scripts --openssl-legacy-provider start",
-    "build": "inferno-scripts --openssl-legacy-provider build",
-    "pretty": "prettier --write 'src/**/*.js'",
-    "lint": "eslint src --ext js --report-unused-disable-directives",
-    "format": "yarn pretty && yarn lint --fix",
+    "build": "yarn flow check && inferno-scripts --openssl-legacy-provider build",
+    "type": "flow-watch",
     "deploy": "yarn build && gh-pages -b deploy -m 'build: Deployment' -d build",
-    "eject": "inferno-scripts eject"
+    "lint": "eslint src --ext .js,.jsx --report-unused-disable-directives",
+    "pretty": "prettier 'src/**/*.{js,jsx}' --write",
+    "format": "yarn lint --fix && yarn pretty"
   },
   "prettier": {
     "singleQuote": true,
@@ -22,17 +31,16 @@
   "dependencies": {
     "inferno": "^8.2.2",
     "inferno-hyperscript": "^8.2.2",
-    "inferno-scripts": "7.0.4"
+    "inferno-scripts": "7.0.4",
+    "tachyons": "^4.12.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.9",
-    "eslint-config-prettier": "^8.8.0",
-    "gh-pages": "^5.0.0",
-    "prettier": "^3.0.0",
-    "tachyons": "^4.12.0"
-  },
-  "eslintConfig": {
-    "extends": "inferno-app"
+    "eslint-config-prettier": "^9.0.0",
+    "flow-bin": "^0.220.1",
+    "flow-watch": "^2.0.0",
+    "gh-pages": "^6.0.0",
+    "prettier": "^3.0.3"
   },
   "eslintIgnore": [
     "index.js"

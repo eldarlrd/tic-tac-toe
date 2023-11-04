@@ -1,6 +1,8 @@
+// @flow strict
 import { h } from 'inferno-hyperscript';
 
-export default function Header() {
+// prettier-ignore
+export default function Header() /*: HTMLDivElement */ {
   return h(
     'header',
     {
