@@ -8,7 +8,7 @@
 > - **[Flow](https://flow.org)**
 > - **[webpack](https://webpack.js.org)**
 >
-> with PvP and PvE modes.
+> with PvE and PvP modes.
 
 ## Install
 ```sh

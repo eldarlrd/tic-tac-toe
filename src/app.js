@@ -117,13 +117,38 @@ export default class App extends Component {
   addActor(tile /*: HTMLDivElement */) {
     if (this.state.gameOver) this.restart();
     else if (tile.innerText !== '') return;
-    else {
+    else if (this.state.mode === 'PvP') {
       new Audio(scribbleAudio).play();
       this.switchActor();
       tile.innerText = this.state.actor;
       tile.classList.add(tile.innerText === 'X' ? 'dark-red' : 'blue');
       this.checkConditions();
+    } else {
+      new Audio(scribbleAudio).play();
+      this.switchActor();
+      tile.innerText = this.state.actor;
+      tile.classList.add(tile.innerText === 'X' ? 'dark-red' : 'blue');
+      this.checkConditions();
+      if (this.state.winner === '') this.computerMove();
     }
+  }
+
+  // Random Move
+  computerMove() {
+    this.switchActor();
+    const tiles = document.getElementsByClassName('board');
+    const emptyTiles = [...tiles].filter(
+      emptyTile => emptyTile.innerText === ''
+    );
+    if (emptyTiles.length > 0) {
+      new Audio(scribbleAudio).play();
+      const randomIndex = ~~(Math.random() * emptyTiles.length);
+      emptyTiles[randomIndex].innerText = this.state.actor;
+      emptyTiles[randomIndex].classList.add(
+        emptyTiles[randomIndex].innerText === 'X' ? 'dark-red' : 'blue'
+      );
+    }
+    this.checkConditions();
   }
 
   switchActor() {
@@ -229,7 +254,8 @@ export default class App extends Component {
                   : this.state.winner === 'None'
                   ? h('div', { style: { height: '28px' } }, "It's a draw!")
                   : h('div', [
-                      'Player ',
+                      this.state.mode === 'PvE' && this.state.winner === 'O'
+                        ? 'Computer ' : 'Player ',
                       h(
                         'span',
                         {
