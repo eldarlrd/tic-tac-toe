@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "2ef7e18c952dc90867ae",
-    "url": "/tic-tac-toe/static/js/main.2ef7e18c.chunk.js"
+    "revision": "6c2a59f53b0dd5b49da6",
+    "url": "/tic-tac-toe/static/js/main.6c2a59f5.chunk.js"
   },
   {
     "revision": "837ee52cce0c84c781f2",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/tic-tac-toe/static/media/paper-flip.548762d2.ogg"
   },
   {
-    "revision": "02f4a1ce1130bff7ef66af1db6f0c394",
+    "revision": "567b2648aba8023b62ada294f5054739",
     "url": "/tic-tac-toe/index.html"
   }
 ];
