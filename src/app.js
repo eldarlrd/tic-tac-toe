@@ -21,12 +21,22 @@ const victoryConditions /*: number[][] */ = [
   [4, 5, 6],
   [7, 8, 9],
   // Vertical
-  [1, 4, 7],
-  [2, 5, 8],
-  [3, 6, 9],
+  [1,
+   4,
+   7],
+  [2,
+   5,
+   8],
+  [3,
+   6,
+   9],
   // Diagonal
-  [1, 5, 9],
-  [3, 5, 7]
+  [1,
+     5,
+       9],
+  [    3,
+     5,
+   7]
 ];
 
 export default class App extends Component {
@@ -37,20 +47,18 @@ export default class App extends Component {
       winner: '',
       mode: 'PvE',
       gridBoxes: [],
-      gameOver: false
+      gameOver: false,
+      tiles: document.getElementsByClassName('board')
     };
   }
 
-  // Call to Populate
   componentWillMount() {
     this.gridLoop();
   }
 
-  // Game Over Conditions
   checkConditions() {
-    const tiles = document.getElementsByClassName('board');
-    this.checkVictory(tiles);
-    this.checkDraw(tiles);
+    this.checkVictory(this.state.tiles);
+    this.checkDraw(this.state.tiles);
   }
 
   // prettier-ignore
@@ -90,7 +98,6 @@ export default class App extends Component {
     }
   }
 
-  // Mode Switch
   // prettier-ignore
   switchMode(mode /*: string */) {
     if (mode === this.state.mode) return;
@@ -100,7 +107,6 @@ export default class App extends Component {
     });
   }
 
-  // Restart
   restart() {
     new Audio(restartAudio).play();
     this.setState({
@@ -126,28 +132,20 @@ export default class App extends Component {
     } else {
       new Audio(scribbleAudio).play();
       this.switchActor();
-      tile.innerText = this.state.actor;
-      tile.classList.add(tile.innerText === 'X' ? 'dark-red' : 'blue');
+      tile.innerText = 'X';
+      tile.classList.add('dark-red');
       this.checkConditions();
       if (this.state.winner === '') this.computerMove();
     }
   }
 
-  // Random Move
   computerMove() {
     this.switchActor();
-    const tiles = document.getElementsByClassName('board');
-    const emptyTiles = [...tiles].filter(
+    const emptyTiles = [...this.state.tiles].filter(
       emptyTile => emptyTile.innerText === ''
     );
-    if (emptyTiles.length > 0) {
-      new Audio(scribbleAudio).play();
-      const randomIndex = ~~(Math.random() * emptyTiles.length);
-      emptyTiles[randomIndex].innerText = this.state.actor;
-      emptyTiles[randomIndex].classList.add(
-        emptyTiles[randomIndex].innerText === 'X' ? 'dark-red' : 'blue'
-      );
-    }
+    emptyTiles[0].innerText = 'O';
+    emptyTiles[0].classList.add('blue');
     this.checkConditions();
   }
 
