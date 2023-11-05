@@ -21,7 +21,7 @@ export default function Footer() /*: HTMLDivElement */ {
             'a',
             {
               class:
-                'near-white grow flex items-center justify-center tc mt1 no-underline outline-0',
+                'near-white grow flex items-center justify-center tc mt1 no-underline',
               title: 'Go to the Source',
               target: '_blank',
               type: 'text/html',

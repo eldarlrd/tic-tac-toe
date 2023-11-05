@@ -191,6 +191,7 @@ export default class App extends Component {
       },
       [
         h(Header),
+
         h(
           'main',
           {
@@ -214,7 +215,7 @@ export default class App extends Component {
                       style: { width: '7.5rem' },
                       class: `${
                         this.state.mode === 'PvE' ? 'active-button' : ''
-                      } mr2 mb2 avenir bw0 outline-0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue`
+                      } mr2 mb2 avenir bw0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pa2 ba bw1 b--dark-blue`
                     },
                     [h('i', { class: 'fa-solid fa-robot h1 w1 mr3' }), ' PvE']
                   ),
@@ -226,13 +227,14 @@ export default class App extends Component {
                       style: { width: '7.5rem' },
                       class: `${
                         this.state.mode === 'PvP' ? 'active-button' : ''
-                      } ml2 mb2 avenir bw0 outline-0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue`
+                      } ml2 mb2 avenir bw0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pa2 ba bw1 b--dark-blue`
                     },
                     [h('i', { class: 'fa-solid fa-user h1 w1 mr2' }), ' PvP']
                   )
                 ]),
+
                 this.state.winner === ''
-                  ? h('div', { style: { height: '28px' } }, [
+                  ? h('div', { style: { height: '28px', 'line-height': '28px' } }, [
                       h('span', [
                         'Player ',
                         h(
@@ -249,8 +251,9 @@ export default class App extends Component {
                         ' to move'
                       ])
                     ])
+
                   : this.state.winner === 'None'
-                  ? h('div', { style: { height: '28px' } }, "It's a draw!")
+                  ? h('div', { style: { height: '28px', 'line-height': '28px' } }, "It's a draw!")
                   : h('div', [
                       this.state.mode === 'PvE' && this.state.winner === 'O'
                         ? 'Computer ' : 'Player ',
@@ -270,6 +273,7 @@ export default class App extends Component {
                     ])
               ]
             ),
+
             h(
               'section#gameBoard',
               { style: { width: '21em', height: '21em' }, class: 'mt2 mb3 cf' },
@@ -280,7 +284,7 @@ export default class App extends Component {
               {
                 onClick: () => this.restart(),
                 class:
-                  'avenir bw0 outline-0 bg-animate pointer bg-transparent dark-blue b mt4 f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue'
+                  'avenir bw0 bg-animate pointer bg-transparent dark-blue b mt4 f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue'
               },
               [h('i', { class: 'fa-solid fa-repeat mr2' }), 'Restart']
             )
