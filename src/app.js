@@ -23,20 +23,20 @@ const victoryConditions /*: number[][] */ = [
   // Vertical
   [1,
    4,
-   7],
-  [2,
-   5,
-   8],
-  [3,
-   6,
-   9],
+   7      ],
+  [   2,
+      5,
+      8   ],
+  [      3,
+         6,
+         9],
   // Diagonal
   [1,
-     5,
-       9],
-  [    3,
-     5,
-   7]
+      5,
+         9],
+  [      3,
+      5,
+   7      ]
 ];
 
 export default class App extends Component {
@@ -61,7 +61,6 @@ export default class App extends Component {
     this.checkDraw(this.state.tiles);
   }
 
-  // prettier-ignore
   checkVictory(tiles /*: HTMLCollection<HTMLElement> */) {
     const victoryState = victoryConditions.filter(condition => {
       return condition.every(i => {
@@ -69,11 +68,13 @@ export default class App extends Component {
       });
     });
 
-    if (victoryState.length === 1) {
+    if (victoryState.length > 0) {
       new Audio(gameOverAudio).play();
-      for (let i of victoryState[0]) {
-        tiles[i - 1].classList.add('bg-light-green');
-      }
+      victoryState.forEach(state => {
+        for (let i of state) {
+          tiles[i - 1].classList.add('bg-light-green');
+        }
+      });
 
       this.setState({
         winner: this.state.actor,
