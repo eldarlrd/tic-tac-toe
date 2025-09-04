@@ -1,7 +1,7 @@
 /**
  * @license AGPL-3.0-only
  * Tic Tac Toe - A classic Tic Tac Toe game
- * Copyright (C) 2023 Eldar Pashazade <eldarlrd@pm.me>
+ * Copyright (C) 2023-2025 Eldar Pashazade <eldarlrd@pm.me>
  *
  * This file is part of Tic Tac Toe.
  *
@@ -19,6 +19,6 @@
  */
 
 import { render } from 'inferno';
-import App from './app.js';
+import App from 'src/app.ts';
 
 render(<App />, document.getElementById('app'));

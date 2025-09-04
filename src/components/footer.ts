@@ -16,7 +16,7 @@ export default function Footer() /*: HTMLDivElement */ {
             'b flex flex-column items-center justify-center tc f4 near-white'
         },
         [
-          '© 2023',
+          '© 2023 - 2025',
           h(
             'a',
             {

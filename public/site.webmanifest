@@ -7,12 +7,12 @@
     "entertainment",
     "games"
   ],
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "natural",
   "theme_color": "#00449e",
   "background_color": "#f4f4f4",
   "description": "A classic Tic Tac Toe game",
-  "start_url": "https://eldarlrd.github.io/tic-tac-toe/",
+  "start_url": "https://eldarlrd.is-a.dev/tic-tac-toe/",
   "icons": [
     {
       "src": "favicon.png",
