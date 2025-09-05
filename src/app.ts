@@ -1,79 +1,217 @@
-// @flow strict
-import { Component } from 'inferno';
-import { h } from 'inferno-hyperscript';
+import {
+  Component,
+  createElement as h,
+  type ReactElement,
+  type MouseEvent
+} from 'react';
 
-import Header from './components/header';
-import Footer from './components/footer';
+import gameOverAudio from '#/sfx/gameOver.opus';
+import restartAudio from '#/sfx/paperFlip.opus';
+import scribbleAudio from '#/sfx/scribble.opus';
+import Footer from '@/components/footer.ts';
+import Header from '@/components/header.ts';
 
-// $FlowExpectedError[cannot-resolve-module]
-import scribbleAudio from './assets/scribble.ogg';
-// $FlowExpectedError[cannot-resolve-module]
-import gameOverAudio from './assets/game-over.ogg';
-// $FlowExpectedError[cannot-resolve-module]
-import restartAudio from './assets/paper-flip.ogg';
-
+// @ts-expect-error: missing type declaration
 import 'tachyons';
+import '@fontsource/patrick-hand/index.css';
 
-// prettier-ignore
-const victoryConditions /*: number[][] */ = [
+const victoryConditions: number[][] = [
   // Horizontal
   [1, 2, 3],
   [4, 5, 6],
   [7, 8, 9],
   // Vertical
-  [1,
-   4,
-   7      ],
-  [   2,
-      5,
-      8   ],
-  [      3,
-         6,
-         9],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
   // Diagonal
-  [1,
-      5,
-         9],
-  [      3,
-      5,
-   7      ]
+  [1, 5, 9],
+  [3, 5, 7]
 ];
 
-export default class App extends Component {
-  constructor() {
-    super();
+type AppMode = 'PvE' | 'PvP';
+type Actor = 'X' | 'O' | '';
+type Winner = 'X' | 'O' | 'None' | '';
+
+type AppProps = object;
+interface AppState {
+  actor: Actor;
+  winner: Winner;
+  mode: AppMode;
+  gridBoxes: ReactElement[];
+  gameOver: boolean;
+  tiles: HTMLCollectionOf<HTMLDivElement>;
+}
+
+export default class App extends Component<AppProps, AppState> {
+  public constructor(props: AppProps) {
+    super(props);
     this.state = {
       actor: '',
       winner: '',
       mode: 'PvE',
       gridBoxes: [],
       gameOver: false,
-      tiles: document.getElementsByClassName('board')
+      tiles: document.getElementsByClassName(
+        'board'
+      ) as HTMLCollectionOf<HTMLDivElement>
     };
   }
 
-  componentWillMount() {
+  public override componentDidMount(): void {
     this.gridLoop();
   }
 
-  checkConditions() {
-    this.checkVictory(this.state.tiles);
-    this.checkDraw(this.state.tiles);
+  public override render(): ReactElement {
+    return h(
+      'div',
+      {
+        className:
+          'min-vh-100 flex flex-column items-center justify-between bg-near-white'
+      },
+      h(Header),
+
+      h(
+        'main',
+        {
+          className:
+            'w-100 pb5 pt4 h-100 flex flex-column items-center justify-center'
+        },
+        h(
+          'section',
+          {
+            className:
+              'flex flex-column items-center justify-center mt4 mb4 f3 avenir dark-blue b'
+          },
+          h(
+            'div',
+            { className: 'mb3' },
+            h(
+              'button',
+              {
+                onClick: async () => {
+                  await this.switchMode('PvE');
+                },
+                title: 'Player vs. Environment',
+                style: { width: '7.5rem' },
+                className: `${
+                  this.state.mode === 'PvE' ? 'active-button' : ''
+                } mr2 mb2 avenir bw0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pa2 ba bw1 b--dark-blue`
+              },
+              h('i', { className: 'fa-solid fa-robot h1 w1 mr3' }),
+              ' PvE'
+            ),
+            h(
+              'button',
+              {
+                onClick: async () => {
+                  await this.switchMode('PvP');
+                },
+                title: 'Player vs. Player',
+                style: { width: '7.5rem' },
+                className: `${
+                  this.state.mode === 'PvP' ? 'active-button' : ''
+                } ml2 mb2 avenir bw0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pa2 ba bw1 b--dark-blue`
+              },
+              h('i', { className: 'fa-solid fa-user h1 w1 mr2' }),
+              ' PvP'
+            )
+          ),
+
+          this.state.winner === '' ?
+            h(
+              'div',
+              { style: { height: '28px', lineHeight: '28px' } },
+              h(
+                'span',
+                null,
+                'Player ',
+                h(
+                  'span',
+                  {
+                    style: {
+                      fontFamily: 'Patrick Hand, cursive'
+                    },
+                    className:
+                      this.state.actor === 'X' ? 'b blue' : 'b dark-red'
+                  },
+                  this.state.actor === 'X' ? 'O' : 'X'
+                ),
+                ' to move'
+              )
+            )
+          : this.state.winner === 'None' ?
+            h(
+              'div',
+              { style: { height: '28px', lineHeight: '28px' } },
+              "It's a draw!"
+            )
+          : h(
+              'div',
+              null,
+              this.state.mode === 'PvE' && this.state.winner === 'O' ?
+                'Computer '
+              : 'Player ',
+              h(
+                'span',
+                {
+                  style: {
+                    fontFamily: 'Patrick Hand, cursive',
+                    height: '28px'
+                  },
+                  className: this.state.winner === 'X' ? 'b dark-red' : 'b blue'
+                },
+                this.state.winner
+              ),
+              ' wins!'
+            )
+        ),
+
+        h(
+          'section',
+          {
+            id: 'gameBoard',
+            style: { width: '21rem', height: '21rem' },
+            className: 'mt2 mb3 cf'
+          },
+          this.state.gridBoxes
+        ),
+        h(
+          'button',
+          {
+            onClick: async () => {
+              await this.restart();
+            },
+            className:
+              'avenir bw0 bg-animate pointer bg-transparent dark-blue b mt4 f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue'
+          },
+          h('i', { className: 'fa-solid fa-repeat mr2' }),
+          'Restart'
+        )
+      ),
+      h(Footer)
+    );
   }
 
-  checkVictory(tiles /*: HTMLCollection<HTMLElement> */) {
+  private async checkConditions(): Promise<void> {
+    await this.checkVictory(this.state.tiles);
+    await this.checkDraw(this.state.tiles);
+  }
+
+  private async checkVictory(tiles: AppState['tiles']): Promise<void> {
     const victoryState = victoryConditions.filter(condition => {
-      return condition.every(i => {
-        return tiles[i - 1].innerText === this.state.actor;
-      });
+      const [aIdx, bIdx, cIdx] = condition;
+      const a = tiles[aIdx - 1].innerText;
+      const b = tiles[bIdx - 1].innerText;
+      const c = tiles[cIdx - 1].innerText;
+
+      return a !== '' && a === b && b === c;
     });
 
     if (victoryState.length > 0) {
-      new Audio(gameOverAudio).play();
+      await new Audio(gameOverAudio).play();
       victoryState.forEach(state => {
-        for (let i of state) {
-          tiles[i - 1].classList.add('bg-light-green');
-        }
+        for (const i of state) tiles[i - 1].classList.add('bg-light-green');
       });
 
       this.setState({
@@ -83,15 +221,13 @@ export default class App extends Component {
     }
   }
 
-  // prettier-ignore
-  checkDraw(tiles /*: HTMLCollection<HTMLElement> */) {
-    const drawState = [...tiles].every(tile => {
-      // $FlowIssue[incompatible-use]
+  private async checkDraw(tiles: AppState['tiles']): Promise<void> {
+    const drawState = Array.from(tiles).every(tile => {
       return tile.innerText.includes('X') || tile.innerText.includes('O');
     });
 
     if (drawState) {
-      new Audio(gameOverAudio).play();
+      await new Audio(gameOverAudio).play();
       this.setState({
         winner: this.state.winner === '' ? 'None' : this.state.winner,
         gameOver: true
@@ -99,17 +235,16 @@ export default class App extends Component {
     }
   }
 
-  // prettier-ignore
-  switchMode(mode /*: string */) {
+  private async switchMode(mode: AppState['mode']): Promise<void> {
     if (mode === this.state.mode) return;
-    this.restart();
+    await this.restart();
     this.setState({
       mode
     });
   }
 
-  restart() {
-    new Audio(restartAudio).play();
+  private async restart(): Promise<void> {
+    await new Audio(restartAudio).play();
     this.setState({
       actor: '',
       winner: '',
@@ -120,182 +255,70 @@ export default class App extends Component {
   }
 
   // Placing Marks
-  // prettier-ignore
-  addActor(tile /*: HTMLDivElement */) {
-    if (this.state.gameOver) this.restart();
+  private async addActor(tile: AppState['tiles'][number]): Promise<void> {
+    if (this.state.gameOver) await this.restart();
     else if (tile.innerText !== '') return;
     else if (this.state.mode === 'PvP') {
-      new Audio(scribbleAudio).play();
+      await new Audio(scribbleAudio).play();
       this.switchActor();
       tile.innerText = this.state.actor;
       tile.classList.add(tile.innerText === 'X' ? 'dark-red' : 'blue');
-      this.checkConditions();
+      await this.checkConditions();
     } else {
-      new Audio(scribbleAudio).play();
+      await new Audio(scribbleAudio).play();
       this.switchActor();
       tile.innerText = 'X';
       tile.classList.add('dark-red');
-      this.checkConditions();
-      if (this.state.winner === '') this.computerMove();
+      await this.checkConditions();
+      if (this.state.winner === '') await this.computerMove();
     }
   }
 
-  computerMove() {
+  private async computerMove(): Promise<void> {
     this.switchActor();
-    const emptyTiles = [...this.state.tiles].filter(
+    const emptyTiles = Array.from(this.state.tiles).filter(
       emptyTile => emptyTile.innerText === ''
     );
+
     emptyTiles[0].innerText = 'O';
     emptyTiles[0].classList.add('blue');
-    this.checkConditions();
+    await this.checkConditions();
   }
 
-  switchActor() {
+  private switchActor(): void {
     this.setState({
       actor: this.state.actor === 'X' ? 'O' : 'X'
     });
   }
 
   // Populate the Board
-  gridLoop() {
-    const arr = [];
-    for (let i = 1; i <= 9; i++) {
+  private gridLoop(): void {
+    const arr: ReactElement[] = [];
+
+    for (let i = 1; i <= 9; i++)
       arr.push(
         h(
           'div',
           {
             key: i,
             id: i,
-            onClick: e => this.addActor(e.target),
+            onClick: async (e: MouseEvent<HTMLDivElement>) => {
+              await this.addActor(e.currentTarget);
+            },
             style: {
               height: 'calc(100% / 3)',
-              'font-family': 'Patrick Hand, cursive',
-              'font-size': '5em'
+              fontFamily: 'Patrick Hand, cursive',
+              fontSize: '5rem'
             },
-            class:
+            className:
               'b board ba bw1 b--dark-blue pointer fl w-third flex items-center justify-center'
           },
           ''
         )
       );
-    }
     this.setState({ gridBoxes: arr });
-  }
-
-  // prettier-ignore
-  render() /*: HTMLDivElement */ {
-    return h(
-      'div',
-      {
-        class:
-          'min-vh-100 flex flex-column items-center justify-between bg-near-white'
-      },
-      [
-        h(Header),
-
-        h(
-          'main',
-          {
-            class:
-              'w-100 pb5 pt4 h-100 flex flex-column items-center justify-center'
-          },
-          [
-            h(
-              'section',
-              {
-                class:
-                  'flex flex-column items-center justify-center mt4 mb4 f3 avenir dark-blue b'
-              },
-              [
-                h('div', { class: 'mb3' }, [
-                  h(
-                    'button',
-                    {
-                      onClick: () => this.switchMode('PvE'),
-                      title: 'Player vs. Environment',
-                      style: { width: '7.5rem' },
-                      class: `${
-                        this.state.mode === 'PvE' ? 'active-button' : ''
-                      } mr2 mb2 avenir bw0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pa2 ba bw1 b--dark-blue`
-                    },
-                    [h('i', { class: 'fa-solid fa-robot h1 w1 mr3' }), ' PvE']
-                  ),
-                  h(
-                    'button',
-                    {
-                      onClick: () => this.switchMode('PvP'),
-                      title: 'Player vs. Player',
-                      style: { width: '7.5rem' },
-                      class: `${
-                        this.state.mode === 'PvP' ? 'active-button' : ''
-                      } ml2 mb2 avenir bw0 bg-animate pointer bg-transparent dark-blue b f3 br-pill pa2 ba bw1 b--dark-blue`
-                    },
-                    [h('i', { class: 'fa-solid fa-user h1 w1 mr2' }), ' PvP']
-                  )
-                ]),
-
-                this.state.winner === ''
-                  ? h('div', { style: { height: '28px', 'line-height': '28px' } }, [
-                      h('span', [
-                        'Player ',
-                        h(
-                          'span',
-                          {
-                            style: {
-                              'font-family': 'Patrick Hand, cursive'
-                            },
-                            class:
-                              this.state.actor === 'X' ? 'b blue' : 'b dark-red'
-                          },
-                          this.state.actor === 'X' ? 'O' : 'X'
-                        ),
-                        ' to move'
-                      ])
-                    ])
-
-                  : this.state.winner === 'None'
-                  ? h('div', { style: { height: '28px', 'line-height': '28px' } }, "It's a draw!")
-                  : h('div', [
-                      this.state.mode === 'PvE' && this.state.winner === 'O'
-                        ? 'Computer ' : 'Player ',
-                      h(
-                        'span',
-                        {
-                          style: {
-                            'font-family': 'Patrick Hand, cursive',
-                            height: '28px'
-                          },
-                          class:
-                            this.state.winner === 'X' ? 'b dark-red' : 'b blue'
-                        },
-                        this.state.winner
-                      ),
-                      ' wins!'
-                    ])
-              ]
-            ),
-
-            h(
-              'section#gameBoard',
-              { style: { width: '21em', height: '21em' }, class: 'mt2 mb3 cf' },
-              [this.state.gridBoxes]
-            ),
-            h(
-              'button',
-              {
-                onClick: () => this.restart(),
-                class:
-                  'avenir bw0 bg-animate pointer bg-transparent dark-blue b mt4 f3 br-pill pl3 pr3 pt2 pb2 ba bw1 b--dark-blue'
-              },
-              [h('i', { class: 'fa-solid fa-repeat mr2' }), 'Restart']
-            )
-          ]
-        ),
-        h(Footer)
-      ]
-    );
   }
 }
 
 // Easter Egg
-console.log("Tiktaq'to approved."); //eslint-disable-line
+console.log("🦎 Tiktaq'to approved.");

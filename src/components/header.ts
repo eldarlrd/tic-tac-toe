@@ -1,14 +1,12 @@
-// @flow strict
-import { h } from 'inferno-hyperscript';
+import { createElement as h, type ReactElement } from 'react';
 
-// prettier-ignore
-export default function Header() /*: HTMLDivElement */ {
+export default function Header(): ReactElement {
   return h(
     'header',
     {
-      class:
+      className:
         'pa2 f4 bg-dark-blue near-white w-100 flex tc justify-center items-center'
     },
-    [h('h1', { class: 'avenir' }, 'Tic Tac Toe')]
+    h('h1', { className: 'avenir' }, 'Tic Tac Toe')
   );
 }

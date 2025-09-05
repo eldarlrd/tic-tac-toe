@@ -61,7 +61,6 @@ export default tseslint.config({
     'import/no-named-as-default-member': 0,
     'import/no-useless-path-segments': 2,
     'import/no-named-as-default': 0,
-    'import/no-default-export': 2,
     'import/group-exports': 2,
     'react/sort-comp': 2,
     'react/jsx-pascal-case': 2,

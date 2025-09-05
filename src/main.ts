@@ -18,7 +18,26 @@
  * along with Tic Tac Toe. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { render } from 'inferno';
-import App from 'src/app.ts';
+import { createElement as h, StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
-render(<App />, document.getElementById('app'));
+import App from '@/app.ts';
+
+const root = document.getElementById('root');
+
+if (root) createRoot(root).render(h(StrictMode, null, h(App, {})));
+
+const registerSW = (): void => {
+  if ('serviceWorker' in navigator)
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/tic-tac-toe/sw.js', {
+          scope: '/tic-tac-toe/'
+        })
+        .catch((error: unknown) => {
+          if (error instanceof Error) console.error(error);
+        });
+    });
+};
+
+registerSW();

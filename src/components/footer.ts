@@ -1,42 +1,35 @@
-// @flow strict
-import { h } from 'inferno-hyperscript';
+import { createElement as h, type ReactElement } from 'react';
 
-// prettier-ignore
-export default function Footer() /*: HTMLDivElement */ {
+export default function Footer(): ReactElement {
   return h(
     'footer',
     {
-      class: 'pa3 avenir flex items-center justify-center w-100 bg-dark-blue tc'
+      className:
+        'pa3 avenir flex items-center justify-center w-100 bg-dark-blue tc'
     },
-    [
+    h(
+      'p',
+      {
+        className:
+          'b flex flex-column items-center justify-center tc f4 near-white'
+      },
+      '© 2023 - 2025',
       h(
-        'p',
+        'a',
         {
-          class:
-            'b flex flex-column items-center justify-center tc f4 near-white'
+          className:
+            'near-white grow flex items-center justify-center tc mt2 no-underline',
+          title: 'Source',
+          target: '_blank',
+          type: 'text/html',
+          rel: 'noreferrer external author',
+          href: 'https://github.com/eldarlrd/tic-tac-toe'
         },
-        [
-          '© 2023 - 2025',
-          h(
-            'a',
-            {
-              class:
-                'near-white grow flex items-center justify-center tc mt1 no-underline',
-              title: 'Go to the Source',
-              target: '_blank',
-              type: 'text/html',
-              rel: 'noopener noreferrer nofollow external author',
-              href: 'https://github.com/eldarlrd/tic-tac-toe'
-            },
-            [
-              h('i', {
-                class: 'fa-brands fa-github mr1'
-              }),
-              'eldarlrd'
-            ]
-          )
-        ]
+        h('i', {
+          className: 'fa-brands fa-github mr1'
+        }),
+        'eldarlrd'
       )
-    ]
+    )
   );
 }
