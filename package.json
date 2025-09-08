@@ -1,7 +1,7 @@
 {
   "name": "tic-tac-toe",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.5.1",
   "type": "module",
   "keywords": [
     "tic-tac-toe",
@@ -14,7 +14,7 @@
   "license": "AGPL-3.0-only",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "bundle": "tsc -b && vite build",
     "preview": "vite preview",
     "deployer": "bun bundle && gh-pages -b prod -m 'build(prod): deployment' -d dist",
     "lint": "eslint src",

@@ -41,21 +41,6 @@ export default class App extends Component<Props, State> {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  public override render(): ReactElement {
-    return h(View, {
-      mode: this.state.mode,
-      winner: this.state.winner,
-      actor: this.state.actor,
-      gridBoxes: this.state.gridBoxes,
-      onSwitchMode: async (m: State['mode']) => {
-        await this.switchMode(m);
-      },
-      onRestart: async () => {
-        await this.restart();
-      }
-    });
-  }
-
   private handleKeyDown = (e: KeyboardEvent): void => {
     if (e.code === 'KeyR' || e.key === 'r' || e.key === 'R')
       void this.restart();
@@ -231,6 +216,21 @@ export default class App extends Component<Props, State> {
         )
       );
     this.setState({ gridBoxes: arr });
+  }
+
+  public override render(): ReactElement {
+    return h(View, {
+      mode: this.state.mode,
+      winner: this.state.winner,
+      actor: this.state.actor,
+      gridBoxes: this.state.gridBoxes,
+      onSwitchMode: async (m: State['mode']) => {
+        await this.switchMode(m);
+      },
+      onRestart: async () => {
+        await this.restart();
+      }
+    });
   }
 }
 
