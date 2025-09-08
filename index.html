@@ -27,13 +27,15 @@
         color: #f4f4f4 !important;
       }
 
-      button:hover {
-        background: #00449e;
-        color: #f4f4f4;
+      button:active {
+        scale: .95;
       }
 
-      button:hover:active {
-        scale: .95;
+      @media (hover: hover) {
+        button:hover {
+          background: #00449e;
+          color: #f4f4f4;
+        }
       }
 
       .board:nth-child(-n + 3) {
